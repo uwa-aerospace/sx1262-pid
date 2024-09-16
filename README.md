@@ -44,24 +44,23 @@ void main()
 
     char receiveBuffer[255];
 
-    // Transmit "Hello World" indefinitely
     for(;;)
     {
         int bytesRead = sx1262_receive_async(receiveBuffer, sizeof(receiveBuffer));
 
         if (bytesRead > -1) {
-        // Add a null terminator at the end of the valid data
-        if (bytesRead < sizeof(receiveBuffer)) {
-            receiveBuffer[bytesRead] = '\0';  // Ensure the string is null-terminated
-        } 
-        else {
-            // If bytesRead == sizeof(receiveBuffer), avoid writing out of bounds
-            receiveBuffer[sizeof(receiveBuffer) - 1] = '\0';
-        }
+            // Add a null terminator at the end of the valid data
+            if (bytesRead < sizeof(receiveBuffer)) {
+                receiveBuffer[bytesRead] = '\0';  // Ensure the string is null-terminated
+            } 
+            else {
+                // If bytesRead == sizeof(receiveBuffer), avoid writing out of bounds
+                receiveBuffer[sizeof(receiveBuffer) - 1] = '\0';
+            }
 
-        // Print the payload over serial
-        print_console("Received %d bytes: %s\n", bytesRead, receiveBuffer);
-        print_console("RSSI: %d, SNR: %d, Signal RSSI: %d\n", sx1262_get_rssi(), sx1262_get_snr(), sx1262_get_signal_rssi());
+            // Print the payload over serial
+            print_console("Received %d bytes: %s\n", bytesRead, receiveBuffer);
+            print_console("RSSI: %d, SNR: %d, Signal RSSI: %d\n", sx1262_get_rssi(), sx1262_get_snr(), sx1262_get_signal_rssi());
         }
     }
 }
